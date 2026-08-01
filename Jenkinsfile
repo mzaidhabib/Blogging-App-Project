@@ -20,5 +20,19 @@ pipeline {
                 sh 'mvn package'
             }
         }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv(credentialsId: 'sonar-creds') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
     }
 }
