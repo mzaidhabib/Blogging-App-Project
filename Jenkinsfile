@@ -3,6 +3,7 @@ pipeline {
     tools {
         maven 'maven-3'
         jdk 'jdk-17'
+        sonar 'sonar-scanner'
     }
     stages {
         stage('Compile') {
@@ -22,7 +23,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv(installationName: 'SonarQube', credentialsId: 'sonar-creds') {
+                withSonarQubeEnv(installationName: 'sonar-scanner', credentialsId: 'sonar-creds') {
                     sh 'mvn sonar:sonar'
                 }
             }
