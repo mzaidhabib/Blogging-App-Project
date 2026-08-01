@@ -3,7 +3,7 @@ pipeline {
     tools {
         maven 'maven-3'
         jdk 'jdk-17'
-        sonar 'sonar-scanner'
+        sonar-scanner 'sonar-scanner'
     }
     stages {
         stage('Compile') {
