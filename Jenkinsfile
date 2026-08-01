@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven-3'
+        jdk 'Jdk-17'
+    }
+    stages {
+        stage('Compile') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+}
