@@ -4,6 +4,9 @@ pipeline {
         maven 'maven-3'
         jdk 'jdk-17'
     }
+    environment {
+        SONAR_HOME= tool 'sonar-scanner'
+    }
     stages {
         stage('Compile') {
             steps {
@@ -22,8 +25,13 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv(installationName: 'SonarQube', credentialsId: 'sonar-creds') {
-                    sh 'mvn sonar:sonar'
+                withSonarQubeEnv('sonar-server') {
+                    sh '''
+                        ${SONAR_HOME}/bin/sonar-scanner \
+                        -Dsonar.projectKey=Blogging-App-Project \
+                        -Dsonar.sources=. \
+                        -Dsonar.java.binaries=target
+                    '''
                 }
             }
         }
